@@ -1,100 +1,234 @@
-# AWS Secure AI API Project
+AWS Secure AI API Project
+Overview
 
-## Goal
+This project is a hands-on cloud security and AI integration portfolio project built using AWS and Terraform.
 
-Build a secure AI API using:
-- AWS Lambda
-- API Gateway
-- Terraform
-- CloudWatch
-- IAM security
+The goal of the project is to simulate a real-world secure cloud API architecture using Infrastructure as Code (IaC), serverless technologies, security controls, monitoring, and secret management.
 
-The purpose of this project is to practice cloud engineering, security engineering, and Infrastructure as Code (IaC).
+The project is being developed incrementally using a top-down learning approach:
 
----
+Build real project → learn required concepts during implementation
 
-## Current Architecture
+Current architecture includes:
 
-User → API Gateway → Lambda → External AI API → CloudWatch
+User
+ ↓
+CloudFront
+ ↓
+AWS WAF
+ ↓
+API Gateway
+ ↓
+AWS Lambda
+ ↓
+AWS Secrets Manager
+ ↓
+External API
+ ↓
+CloudWatch Logs + Monitoring
+Architecture Diagram
+                    ┌────────────────────┐
+                    │       User         │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │    CloudFront      │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │      AWS WAF       │
+                    │  Rate Limiting     │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │   API Gateway      │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │   AWS Lambda       │
+                    │  Node.js Runtime   │
+                    └─────────┬──────────┘
+                              │
+                ┌─────────────┴─────────────┐
+                ▼                           ▼
+      ┌──────────────────┐      ┌──────────────────┐
+      │ Secrets Manager  │      │ CloudWatch Logs  │
+      │ Secure API Keys  │      │ Monitoring       │
+      └──────────────────┘      └──────────────────┘
+                             
+                              ▼
+                    ┌────────────────────┐
+                    │ External API Call  │
+                    └────────────────────┘
+Technologies Used
+Cloud Services
+Amazon Web Services Lambda
+Amazon Web Services API Gateway
+Amazon Web Services CloudFront
+Amazon Web Services WAF
+Amazon Web Services CloudWatch
+Amazon Web Services Secrets Manager
+Amazon Web Services IAM
+Infrastructure as Code
+HashiCorp Terraform
+Programming
+Node.js
+JavaScript
+Version Control
+GitHub GitHub
+Git
+Features
+Serverless API
+Public HTTPS API endpoint
+API Gateway to Lambda integration
+Terraform-managed deployment
+Secure Secret Management
+Secrets stored in AWS Secrets Manager
+No hardcoded credentials
+Runtime secret retrieval
+Security Controls
+AWS WAF rate limiting
+Least-privilege IAM permissions
+No secrets committed to GitHub
+Defense-in-depth architecture
+Monitoring & Logging
+CloudWatch logs
+Lambda execution metrics
+Error monitoring
+Operational visibility
+Infrastructure as Code
+Fully managed using Terraform
+Reproducible deployments
+Version-controlled infrastructure
+Security Concepts Demonstrated
+Security Area	Implementation
+Least Privilege IAM	Custom secret access policy
+Secret Management	AWS Secrets Manager
+API Protection	AWS WAF
+Logging & Monitoring	CloudWatch
+Infrastructure Security	Terraform IaC
+Secure Credential Handling	Runtime secret retrieval
+Defense in Depth	Multiple security layers
+Terraform Deployment
+Prerequisites
 
-(Currently API Gateway and external AI API are planned for future weeks.)
+Install:
 
----
+Terraform
+AWS CLI
+Node.js
 
-## Current AWS Architecture
+Configure AWS credentials:
 
-Terraform → IAM Role → AWS Lambda → CloudWatch Logs
+aws configure
+Deploy Infrastructure
 
----
+Go to Terraform directory:
 
-## Technologies
+cd terraform
 
-- AWS Lambda
-- AWS IAM
-- Terraform
-- Node.js
-- GitHub
-- CloudWatch
+Initialize Terraform:
 
----
+terraform init
 
-## Week 1
+Deploy infrastructure:
 
-- Learned project architecture
-- Setup local environment
-- Installed Node.js
-- Created GitHub repository
-- Created first README
+terraform apply
+Lambda Packaging
 
----
+From project root:
 
-## Week 2
+Compress-Archive -Path lambda/* -DestinationPath lambda.zip -Force
+API Testing
 
-- Learned Git basics
-- Learned GitHub workflow
-- Setup Terraform
-- Configured AWS CLI
-- Created Terraform project structure
-- Learned .gitignore and repository cleanup
+After deployment, test API endpoint:
 
----
+https://YOUR_API_ENDPOINT/prod/hello
 
-## Week 3
+Or through CloudFront:
 
-- Created AWS Lambda function
-- Created IAM role using Terraform
-- Attached AWS managed policy for CloudWatch logging
-- Deployed Lambda using Terraform
-- Learned Lambda packaging and ZIP deployment
-- Debugged Lambda UTF-8 encoding issue
-- Tested Lambda successfully in AWS Console
+https://YOUR_CLOUDFRONT_DOMAIN/hello
+Monitoring
 
----
+CloudWatch logs:
 
-## Security Concepts Learned
+/aws/lambda/ai-security-demo
 
-- IAM role trust policy
-- AWS managed policies
-- CloudWatch logging permissions
-- Infrastructure as Code (IaC)
-- Avoiding hardcoded credentials
-- Git repository hygiene
+Metrics monitored:
 
----
+Invocations
+Errors
+Duration
+Request activity
+WAF Protection
 
-## Future Improvements
+Current protections:
 
-Planned future work:
-- API Gateway integration
-- External AI API integration
-- AWS Secrets Manager
-- WAF protection
-- CloudWatch alarms
-- CI/CD pipeline
-- Custom least-privilege IAM policy
+Rate limiting
+Basic request filtering
+Edge protection using CloudFront
 
----
+Example rule:
 
-## Author
+Block IPs sending excessive requests
+Project Structure
+aws-ai-security-project/
+│
+├── lambda/
+│   ├── index.js
+│   ├── package.json
+│   └── package-lock.json
+│
+├── terraform/
+│   ├── main.tf
+│   ├── outputs.tf
+│   └── variables.tf
+│
+├── architecture.drawio
+├── README.md
+└── .gitignore
+Lessons Learned
 
-Created by Yi-Yang Hsu as a cloud security engineering learning project.
+This project helped develop practical experience with:
+
+AWS serverless architecture
+Terraform Infrastructure as Code
+IAM and least privilege design
+Cloud debugging and troubleshooting
+Git hygiene and repository management
+Cloud monitoring and observability
+API security concepts
+Secure secret management
+Future Improvements
+
+Planned future enhancements:
+
+CI/CD pipeline using GitHub Actions
+Custom IAM policies refinement
+Real AI API integration
+Structured JSON logging
+Automated alerting with SNS
+Security hardening review
+Custom domain with ACM
+Advanced WAF managed rules
+Portfolio Objective
+
+This project is designed to demonstrate practical skills relevant to:
+
+Cloud Engineer
+DevSecOps Engineer
+Cloud Security Engineer
+Platform Engineer
+Security-focused System Administrator
+Author
+
+Built as a continuous hands-on cloud security learning project using:
+
+AWS
+Terraform
+GitHub
+Node.js

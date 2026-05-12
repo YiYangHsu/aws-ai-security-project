@@ -10,14 +10,14 @@ const client = new SecretsManagerClient({
 });
 
 exports.handler = async (event) => {
-
+    console.log("🚀 Lambda started");
     try {
 
         // Retrieve secret from Secrets Manager
         const command = new GetSecretValueCommand({
             SecretId: "secure-ai-api-key"
         });
-
+        console.log("📡 Fetching secret from Secrets Manager");
         const secretResponse = await client.send(command);
 
         const secretString = JSON.parse(secretResponse.SecretString);
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
         const response = await axios.get(
             "https://jsonplaceholder.typicode.com/todos/1"
         );
-
+        console.log("🌐 Calling external API");
         return {
             statusCode: 200,
             headers: {
