@@ -38,7 +38,7 @@ exports.handler = async (event) => {
             },
             body: JSON.stringify({
                 success: true,
-                message: "Secret retrieved successfully",
+                message:  "CI/CD deployment successful",
                 external_api_data: response.data
             })
         };
