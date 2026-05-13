@@ -20,9 +20,41 @@ resource "aws_iam_role" "lambda_role" {
     )
 
 }
-resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
-    role =   aws_iam_role.lambda_role.name
-    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+#resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
+#    role =   aws_iam_role.lambda_role.name
+#    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+#}
+
+resource "aws_iam_policy" "lambda_logging_policy" {
+
+  name = "lambda-custom-logging-policy"
+
+  policy = jsonencode({
+
+    Version = "2012-10-17"
+
+    Statement = [
+
+      {
+        Effect = "Allow"
+
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "custom_logging_attach" {
+
+  role = aws_iam_role.lambda_role.name
+
+  policy_arn = aws_iam_policy.lambda_logging_policy.arn
 }
 
 resource "aws_lambda_function" "ai_lambda" {
