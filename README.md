@@ -1,182 +1,293 @@
-AWS Secure AI API Project
-Overview
+# AWS Secure AI API Project
 
-This project is a hands-on cloud security and AI integration portfolio project built using AWS and Terraform.
+## Overview
 
-The goal of the project is to simulate a real-world secure cloud API architecture using Infrastructure as Code (IaC), serverless technologies, security controls, monitoring, and secret management.
+This project is a hands-on cloud security and serverless API portfolio project built using AWS and Terraform.
 
-The project is being developed incrementally using a top-down learning approach:
+The project demonstrates how to build and secure a modern cloud-native API architecture using:
 
-Build real project → learn required concepts during implementation
+- AWS Lambda
+- API Gateway
+- CloudFront
+- AWS WAF
+- AWS Secrets Manager
+- CloudWatch
+- Terraform
+- GitHub Actions CI/CD
 
-Current architecture includes:
+The main goal of the project is to combine:
 
-User
- ↓
-CloudFront
- ↓
-AWS WAF
- ↓
-API Gateway
- ↓
-AWS Lambda
- ↓
-AWS Secrets Manager
- ↓
-External API
- ↓
-CloudWatch Logs + Monitoring
-Architecture Diagram
-                    ┌────────────────────┐
-                    │       User         │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │    CloudFront      │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │      AWS WAF       │
-                    │  Rate Limiting     │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │   API Gateway      │
-                    └─────────┬──────────┘
-                              │
-                              ▼
-                    ┌────────────────────┐
-                    │   AWS Lambda       │
-                    │  Node.js Runtime   │
-                    └─────────┬──────────┘
-                              │
-                ┌─────────────┴─────────────┐
-                ▼                           ▼
-      ┌──────────────────┐      ┌──────────────────┐
-      │ Secrets Manager  │      │ CloudWatch Logs  │
-      │ Secure API Keys  │      │ Monitoring       │
-      └──────────────────┘      └──────────────────┘
-                             
-                              ▼
-                    ┌────────────────────┐
-                    │ External API Call  │
-                    └────────────────────┘
-Technologies Used
-Cloud Services
-Amazon Web Services Lambda
-Amazon Web Services API Gateway
-Amazon Web Services CloudFront
-Amazon Web Services WAF
-Amazon Web Services CloudWatch
-Amazon Web Services Secrets Manager
-Amazon Web Services IAM
-Infrastructure as Code
-HashiCorp Terraform
-Programming
-Node.js
-JavaScript
-Version Control
-GitHub GitHub
-Git
-Features
-Serverless API
-Public HTTPS API endpoint
-API Gateway to Lambda integration
-Terraform-managed deployment
-Secure Secret Management
-Secrets stored in AWS Secrets Manager
-No hardcoded credentials
-Runtime secret retrieval
-Security Controls
-AWS WAF rate limiting
-Least-privilege IAM permissions
-No secrets committed to GitHub
-Defense-in-depth architecture
-Monitoring & Logging
-CloudWatch logs
-Lambda execution metrics
-Error monitoring
-Operational visibility
-Infrastructure as Code
-Fully managed using Terraform
-Reproducible deployments
-Version-controlled infrastructure
-Security Concepts Demonstrated
-Security Area	Implementation
-Least Privilege IAM	Custom secret access policy
-Secret Management	AWS Secrets Manager
-API Protection	AWS WAF
-Logging & Monitoring	CloudWatch
-Infrastructure Security	Terraform IaC
-Secure Credential Handling	Runtime secret retrieval
-Defense in Depth	Multiple security layers
+- cloud engineering
+- infrastructure automation
+- security best practices
+- monitoring
+- CI/CD workflows
+
+into a practical real-world learning project.
+
+This project follows a top-down learning approach:
+
+```text
+Build real projects → learn required concepts during implementation
+```
+
+---
+
+# Architecture Diagram
+
+![Architecture](images/architecture.png)
+
+---
+
+# Architecture Flow
+
+```text
+Developer
+   ↓
+GitHub Repository
+   ↓
+GitHub Actions CI/CD
+   ↓
 Terraform Deployment
-Prerequisites
+   ↓
+CloudFront
+   ↓
+AWS WAF
+   ↓
+API Gateway
+   ↓
+AWS Lambda
+   ↓
+Secrets Manager + CloudWatch
+   ↓
+External API
+```
 
-Install:
+---
 
-Terraform
-AWS CLI
-Node.js
+# Technologies Used
+
+## Cloud Services
+
+- AWS Lambda
+- AWS API Gateway
+- AWS CloudFront
+- AWS WAF
+- AWS CloudWatch
+- AWS Secrets Manager
+- AWS IAM
+
+## Infrastructure as Code
+
+- Terraform
+
+## Programming
+
+- Node.js
+- JavaScript
+
+## CI/CD
+
+- GitHub Actions
+
+## Version Control
+
+- Git
+- GitHub
+
+---
+
+# Security Features
+
+This project focuses heavily on practical cloud security concepts.
+
+## Implemented Security Controls
+
+- AWS WAF provides API rate limiting protection
+- IAM permissions follow least privilege principles
+- Secrets are stored securely in AWS Secrets Manager
+- CloudWatch provides operational monitoring
+- Infrastructure is managed using Terraform
+- No hardcoded credentials are stored in GitHub
+- HTTPS endpoints are used for secure communication
+- CloudFront provides edge-layer protection
+
+---
+
+# CI/CD Pipeline
+
+GitHub Actions automatically deploys infrastructure after code changes are pushed to GitHub.
+
+The pipeline performs:
+
+- Terraform initialization
+- Terraform validation
+- Terraform planning
+- Terraform deployment
+
+## CI/CD Workflow
+
+```text
+Git Push
+   ↓
+GitHub Actions
+   ↓
+Terraform Apply
+   ↓
+AWS Infrastructure Deployment
+```
+
+![GitHub Actions](images/github-actions.png)
+
+---
+
+# Terraform Deployment
+
+## Prerequisites
+
+Install the following tools:
+
+- Terraform
+- AWS CLI
+- Node.js
+- Git
 
 Configure AWS credentials:
 
+```bash
 aws configure
-Deploy Infrastructure
+```
 
-Go to Terraform directory:
+---
 
+## Deploy Infrastructure
+
+Navigate to Terraform directory:
+
+```bash
 cd terraform
+```
 
 Initialize Terraform:
 
+```bash
 terraform init
+```
+
+Preview changes:
+
+```bash
+terraform plan
+```
 
 Deploy infrastructure:
 
+```bash
 terraform apply
-Lambda Packaging
+```
+
+Destroy infrastructure when finished:
+
+```bash
+terraform destroy
+```
+
+---
+
+# Lambda Packaging
+
+The Lambda deployment package must be rebuilt after updating Lambda code.
 
 From project root:
 
+```powershell
 Compress-Archive -Path lambda/* -DestinationPath lambda.zip -Force
-API Testing
+```
 
-After deployment, test API endpoint:
+---
 
+# API Testing
+
+After deployment, Terraform outputs the API endpoint.
+
+Example:
+
+```text
 https://YOUR_API_ENDPOINT/prod/hello
+```
 
 Or through CloudFront:
 
+```text
 https://YOUR_CLOUDFRONT_DOMAIN/hello
-Monitoring
+```
 
-CloudWatch logs:
+Example response:
 
+```json
+{
+  "message": "CI/CD deployment successful"
+}
+```
+
+---
+
+# Monitoring
+
+CloudWatch is used for:
+
+- Lambda logging
+- Error monitoring
+- Runtime troubleshooting
+- Operational visibility
+
+## Monitored Metrics
+
+- Lambda invocations
+- Lambda errors
+- Execution duration
+- API request activity
+
+## CloudWatch Log Group
+
+```text
 /aws/lambda/ai-security-demo
+```
 
-Metrics monitored:
+---
 
-Invocations
-Errors
-Duration
-Request activity
-WAF Protection
+# WAF Protection
 
-Current protections:
+AWS WAF provides basic API protection.
 
-Rate limiting
-Basic request filtering
-Edge protection using CloudFront
+## Current WAF Features
 
-Example rule:
+- Rate limiting
+- Request filtering
+- Edge protection using CloudFront
 
-Block IPs sending excessive requests
-Project Structure
+Example protection rule:
+
+```text
+Block excessive requests from a single IP address
+```
+
+---
+
+# Project Structure
+
+```text
 aws-ai-security-project/
+│
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+│
+├── images/
+│   ├── architecture.png
+│   ├── github-actions.png
+│   ├── cloudwatch.png
+│   └── waf.png
 │
 ├── lambda/
 │   ├── index.js
@@ -189,46 +300,127 @@ aws-ai-security-project/
 │   └── variables.tf
 │
 ├── architecture.drawio
+├── lambda.zip
 ├── README.md
 └── .gitignore
-Lessons Learned
+```
 
-This project helped develop practical experience with:
+---
 
-AWS serverless architecture
-Terraform Infrastructure as Code
-IAM and least privilege design
-Cloud debugging and troubleshooting
-Git hygiene and repository management
-Cloud monitoring and observability
-API security concepts
-Secure secret management
-Future Improvements
+# Lessons Learned
 
-Planned future enhancements:
+This project helped develop practical hands-on experience across cloud engineering, infrastructure automation, security, monitoring, and DevSecOps workflows.
 
-CI/CD pipeline using GitHub Actions
-Custom IAM policies refinement
-Real AI API integration
-Structured JSON logging
-Automated alerting with SNS
-Security hardening review
-Custom domain with ACM
-Advanced WAF managed rules
-Portfolio Objective
+## Terraform Infrastructure as Code (IaC)
 
-This project is designed to demonstrate practical skills relevant to:
+- Provisioned AWS infrastructure using Terraform
+- Built reusable infrastructure definitions
+- Learned Terraform workflows:
+  - terraform init
+  - terraform plan
+  - terraform apply
+  - terraform destroy
+- Learned Terraform state management concepts
+- Troubleshot Terraform deployment and dependency issues
 
-Cloud Engineer
-DevSecOps Engineer
-Cloud Security Engineer
-Platform Engineer
-Security-focused System Administrator
-Author
+## AWS Serverless Architecture
+
+- Built a serverless API architecture using:
+  - API Gateway
+  - Lambda
+  - CloudFront
+- Learned how serverless applications operate
+- Integrated API Gateway with Lambda functions
+- Deployed Node.js applications to AWS Lambda
+
+## IAM Least Privilege Design
+
+- Learned differences between managed and custom IAM policies
+- Implemented least privilege permissions
+- Restricted Lambda access to only required services
+- Developed understanding of IAM trust relationships
+
+## Cloud Security Principles
+
+- Implemented:
+  - AWS WAF
+  - Secrets Manager
+  - IAM security controls
+  - HTTPS APIs
+- Learned secure secret handling practices
+- Developed a stronger cloud security mindset
+
+## CI/CD Pipeline Automation
+
+- Built GitHub Actions deployment pipeline
+- Automated Terraform deployments
+- Learned Git-based infrastructure workflows
+- Improved understanding of deployment automation
+
+## Monitoring and Observability
+
+- Configured CloudWatch Logs
+- Monitored Lambda runtime behavior
+- Troubleshot runtime and deployment issues
+- Learned operational monitoring concepts
+
+## GitHub Workflow Management
+
+- Improved Git and GitHub workflow understanding
+- Learned repository hygiene best practices
+- Fixed issues involving:
+  - Terraform provider binaries
+  - Terraform state files
+  - generated dependencies
+- Learned proper .gitignore usage
+
+## Cloud Troubleshooting and Debugging
+
+- Troubleshot:
+  - Lambda runtime errors
+  - API Gateway integration issues
+  - CloudFront configuration issues
+  - WAF integration problems
+  - Terraform deployment failures
+- Developed practical cloud debugging skills
+
+---
+
+# Future Improvements
+
+Planned future enhancements include:
+
+- Real AI API integration
+- Advanced WAF managed rules
+- Custom domain with ACM
+- Structured JSON logging
+- SNS alerting integration
+- Multi-environment Terraform setup
+- Terraform remote backend
+- Advanced monitoring dashboards
+- Security hardening review
+- Additional least-privilege IAM refinement
+
+---
+
+# Portfolio Objective
+
+This project is designed to demonstrate practical experience relevant to:
+
+- Cloud Engineer
+- DevSecOps Engineer
+- Cloud Security Engineer
+- Platform Engineer
+- Security-focused System Administrator
+
+---
+
+# Author
 
 Built as a continuous hands-on cloud security learning project using:
 
-AWS
-Terraform
-GitHub
-Node.js
+- AWS
+- Terraform
+- GitHub
+- Node.js
+- GitHub Actions
